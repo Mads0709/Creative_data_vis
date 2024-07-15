@@ -77,6 +77,30 @@ var skydata = [
   },
 ];
 
+// Create humidity rectangles
+var humidityRect = canvas
+  .selectAll(".humidityRect")
+  .data(skydata)
+  .join("rect")
+  .attr("class", "humidityRect")
+  .attr("x", function (d, i) {
+    return 15 + i * 55;
+  })
+  .attr("y", function (d, i) {
+    return height / 10;
+  })
+  .attr("width", 50) // Adjusted width for better visualization
+  .attr("height", 20)
+  .attr("fill", function (d) {
+    if (d.humidity <= 0.6) {
+      return "red";
+    } else if (d.humidity == 0.65) {
+      return "orange";
+    } else {
+      return "blue";
+    }
+  });
+
 var skyCircles = canvas
   .selectAll("circle")
   .data(skydata)
@@ -109,9 +133,10 @@ var skyCircles = canvas
 var rainWidth = 2;
 var rainHeight = 20;
 var rain = canvas
-  .selectAll("rect")
+  .selectAll(".rainRect")
   .data(skydata)
   .join("rect")
+  .attr("class", "rainRect")
   .attr("x", function (d, i) {
     return leftMargin + i * 55;
   })
@@ -132,7 +157,7 @@ var rain = canvas
 
 function updateRainVisibility(visible) {
   canvas
-    .selectAll("rect")
+    .selectAll(".rainRect")
     .attr("display", visible ? "block" : "none")
     .attr("fill", "blue");
 }
